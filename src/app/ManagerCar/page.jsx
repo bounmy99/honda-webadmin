@@ -8,6 +8,7 @@ import SearchBox from "./components/SearchBox";
 import Tabs from "./components/Tabs";
 import CarTable from "./components/CarTable";
 import SideBar from "../Dashboard/components/SideBar";
+import CarOrderTable from "./components/CarOrderTable";
 
 const ManagerCar = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -51,6 +52,27 @@ const ManagerCar = () => {
     "ກຳລັງສັ່ງຊື້",
   ];
 
+  const mockData = [
+    {
+      id: 1,
+      ປະເພດລົດ: "ລົດໃຫຍ່",
+      ສີລົດ: "ສີລາວ",
+      ຈຳນວນຄັນ: "3ຄັນ",
+      ວັນທີສັ່ງຊື້: "12/7/2025",
+      ສະຖານະ: "ກຳລັງຈັດຊື້",
+      ສຳເລັດ: true,
+    },
+    {
+      id: 2,
+      ປະເພດລົດ: "ລົດຈັກ",
+      ສີລົດ: "ສີແດງ",
+      ຈຳນວນຄັນ: "5ຄັນ",
+      ວັນທີສັ່ງຊື້: "12/7/2025",
+      ສະຖານະ: "ກຳລັງຈັດຊື້",
+      ສຳເລັດ: false,
+    },
+  ];
+
   return (
     <>
       <Topbar />
@@ -59,17 +81,24 @@ const ManagerCar = () => {
         <div className='max-w-7xl mx-auto'>
           <div className='flex gap-4 mb-6'>
             <button className='bg-slate-700 text-gray-50 px-6 py-2 rounded text-sm font-semibold'>
-              ສາຂາໂພນພະເນົາ
+              ສາຂາປາກເຊ
             </button>
             <SearchBox searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
             <ActionButtons />
           </div>
+
           <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
-          <CarTable data={tabCategories[activeTab]} onDelete={handleDeleteCar} />
+
+          {/* ✅ เงื่อนไขแสดงตารางตาม tab */}
+          {activeTab === 4 ? (
+            <CarOrderTable data={mockData} />
+          ) : (
+            <CarTable data={tabCategories[activeTab]} onDelete={handleDeleteCar} />
+          )}
         </div>
       </div>
     </>
   );
 };
 
-export default ManagerCar; 
+export default ManagerCar;

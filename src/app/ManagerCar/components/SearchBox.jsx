@@ -1,4 +1,3 @@
-// app/manager-car/components/SearchBox.jsx
 import React from "react";
 import { Search } from "lucide-react";
 

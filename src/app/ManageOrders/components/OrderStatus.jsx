@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Search, Plus } from "lucide-react";
 import { BiSolidCarousel } from "react-icons/bi";
 import { TiTick } from "react-icons/ti";
 import { FaReceipt } from "react-icons/fa";
@@ -13,22 +13,24 @@ const statusTabs = [
   { label: "ສັ່ງຊື້ສຳເລັດ", value: "ສັ່ງຊື້ສຳເລັດ" },
 ];
 
-export default function OrderStatusPage() {
-  const [activeTab, setActiveTab] = useState(statusTabs[0].value);
-  const [orders, setOrders] = useState([]);
+function formatMoney(val) {
+  return val.toLocaleString("en-US") + ".000kip";
+}
+
+export default function OrderStatus({ 
+  orders, 
+  setOrders, 
+  activeTab, 
+  setActiveTab 
+}) {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedIds, setSelectedIds] = useState([]);
-  const router = useRouter();
-
-  useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem("orders") || "[]");
-    setOrders(stored);
-  }, []);
 
   const filtered = orders.filter(
     (o) =>
       o.status === activeTab &&
-      (o.type?.includes(searchTerm) || o.price?.toString().includes(searchTerm))
+      (o.type?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+       o.price?.toString().includes(searchTerm))
   );
 
   const onApprove = (id) => {
@@ -36,7 +38,6 @@ export default function OrderStatusPage() {
       o.id === id ? { ...o, status: "ສັ່ງຊື້ສຳເລັດ" } : o
     );
     setOrders(updated);
-    localStorage.setItem("orders", JSON.stringify(updated));
   };
 
   const onCancel = (id) => {
@@ -44,14 +45,20 @@ export default function OrderStatusPage() {
       o.id === id ? { ...o, status: "ຍົກເລີກການສັ່ງຊື້" } : o
     );
     setOrders(updated);
-    localStorage.setItem("orders", JSON.stringify(updated));
   };
 
   const deleteSelected = () => {
-    const updated = orders.filter((o) => !selectedIds.includes(o.id));
-    setOrders(updated);
-    setSelectedIds([]);
-    localStorage.setItem("orders", JSON.stringify(updated));
+    if (selectedIds.length === 0) return;
+    
+    if (confirm(`ທ່ານຕ້ອງການລຶບ ${selectedIds.length} ລາຍການນີ້ບໍ?`)) {
+      const updated = orders.filter((o) => !selectedIds.includes(o.id));
+      setOrders(updated);
+      setSelectedIds([]);
+    }
+  };
+
+  const handleAddOrder = () => {
+    window.location.href = '/ManageOrders/add';
   };
 
   const summaryCounts = {
@@ -69,11 +76,11 @@ export default function OrderStatusPage() {
   ];
 
   return (
-    <div className="p-6 max-w-6xl mx-auto bg-gray-50 min-h-full">
+    <div className="p-6 max-w-6xl mx-auto bg-gray-50 min-h-screen">
       {/* Summary Boxes */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
         {summaryStatuses.map(({ label, key, icon }) => (
-          <div key={key} className="rounded-lg p-4 bg-[#2A7A8B] text-white shadow-lg">
+          <div key={key} className="rounded-lg p-4 bg-[#2A7A8B] text-white shadow-lg hover:bg-[#236B7A] transition-colors cursor-pointer">
             <div className="flex justify-between items-start">
               <div>
                 <div className="text-sm font-medium mb-2">{label}</div>
@@ -104,112 +111,162 @@ export default function OrderStatusPage() {
             </button>
           ))}
 
-          <input
-            type="text"
-            placeholder="ຄົ້ນຫາ...."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="border border-gray-300 px-4 py-2 rounded-md"
-          />
+          <div className="flex gap-2 flex-1">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <input
+                type="text"
+                placeholder="ຄົ້ນຫາ...."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="border border-gray-300 pl-10 pr-4 py-2 rounded-md w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
 
-          <input
-            type="date"
-            className="border border-gray-300 px-4 py-2 rounded-md"
-          />
+            <input
+              type="date"
+              className="border border-gray-300 px-4 py-2 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
 
-          <button
-            onClick={deleteSelected}
-            disabled={selectedIds.length === 0}
-            className={`px-6 py-2 rounded-md text-white ${
-              selectedIds.length > 0
-                ? "bg-red-600 hover:bg-red-700"
-                : "bg-gray-300"
-            }`}
-          >
-            ລົບທີ່ເລືອກ
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={deleteSelected}
+              disabled={selectedIds.length === 0}
+              className={`px-6 py-2 rounded-md text-white transition-colors ${
+                selectedIds.length > 0
+                  ? "bg-red-600 hover:bg-red-700"
+                  : "bg-gray-300 cursor-not-allowed"
+              }`}
+            >
+              ລົບທີ່ເລືອກ ({selectedIds.length})
+            </button>
 
-          <button
-            onClick={() => router.push("/ManageOrders/add")}
-            className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700"
-          >
-            ເພີ່ມການສັ່ງ
-          </button>
+            <button
+              onClick={handleAddOrder}
+              className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors flex items-center gap-2"
+            >
+              <Plus className="w-4 h-4" />
+              ເພີ່ມການສັ່ງ
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Table */}
       <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-        <table className="min-w-full text-sm">
-          <thead className="bg-gray-50 border-b border-gray-400">
-            <tr>
-              <th className="p-4 text-left">ລຳດັບ</th>
-              <th className="p-4 text-left">ປະເພດ</th>
-              <th className="p-4 text-left">ລາຄາ</th>
-              <th className="p-4 text-left">ຈຳນວນ</th>
-              <th className="p-4 text-left">ສະຖານະ</th>
-              <th className="p-4 text-left">ວັນທີສັ່ງ</th>
-              <th className="p-4 text-left">ຈັດການ</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map((item, idx) => (
-              <tr
-                key={item.id}
-                className={`border-b border-gray-400 hover:bg-gray-100 cursor-pointer ${
-                  selectedIds.includes(item.id) ? "bg-teal-100" : ""
-                }`}
-                onClick={() =>
-                  setSelectedIds((prev) =>
-                    prev.includes(item.id)
-                      ? prev.filter((id) => id !== item.id)
-                      : [...prev, item.id]
-                  )
-                }
-              >
-                <td className="p-4">{idx + 1}</td>
-                <td className="p-4 font-medium">{item.type}</td>
-                <td className="p-4">{item.price}</td>
-                <td className="p-4">{item.quantity}</td>
-                <td className="p-4">
-                  <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-medium">
-                    {item.status}
-                  </span>
-                </td>
-                <td className="p-4">{item.date}</td>
-                <td className="p-4">
-                  {item.status === "ກຳລັງອານຸມັດ" && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onApprove(item.id);
-                      }}
-                      className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 text-sm font-medium"
-                    >
-                      ອະນຸມັດ
-                    </button>
-                  )}
-                  {item.status === "ຍົກເລີກການສັ່ງຊື້" && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onCancel(item.id);
-                      }}
-                      className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 text-sm font-medium"
-                    >
-                      ຍົກເລີກ
-                    </button>
-                  )}
-                  {item.status === "ສັ່ງຊື້ສຳເລັດ" && (
-                    <span className="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium">
-                      ສຳເລັດ
-                    </span>
-                  )}
-                </td>
+        <div className="overflow-x-auto">
+          <table className="min-w-full text-sm">
+            <thead className="bg-gray-50 border-b border-gray-200">
+              <tr>
+                <th className="p-4 text-left font-medium text-gray-700">
+                  <input
+                    type="checkbox"
+                    checked={filtered.length > 0 && selectedIds.length === filtered.length}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedIds(filtered.map(item => item.id));
+                      } else {
+                        setSelectedIds([]);
+                      }
+                    }}
+                    className="rounded"
+                  />
+                </th>
+                <th className="p-4 text-left font-medium text-gray-700">ລຳດັບ</th>
+                <th className="p-4 text-left font-medium text-gray-700">ປະເພດ</th>
+                <th className="p-4 text-left font-medium text-gray-700">ລາຄາ</th>
+                <th className="p-4 text-left font-medium text-gray-700">ຈຳນວນ</th>
+                <th className="p-4 text-left font-medium text-gray-700">ສະຖານະ</th>
+                <th className="p-4 text-left font-medium text-gray-700">ວັນທີສັ່ງ</th>
+                <th className="p-4 text-left font-medium text-gray-700">ຈັດການ</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filtered.length === 0 ? (
+                <tr>
+                  <td colSpan="8" className="p-8 text-center text-gray-500">
+                    ບໍ່ມີຂໍ້ມູນທີ່ຕົງກັບການຄົ້ນຫາ
+                  </td>
+                </tr>
+              ) : (
+                filtered.map((item, idx) => (
+                  <tr
+                    key={item.id}
+                    className={`border-b border-gray-100 hover:bg-gray-50 transition-colors ${
+                      selectedIds.includes(item.id) ? "bg-blue-50" : ""
+                    }`}
+                  >
+                    <td className="p-4">
+                      <input
+                        type="checkbox"
+                        checked={selectedIds.includes(item.id)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedIds([...selectedIds, item.id]);
+                          } else {
+                            setSelectedIds(selectedIds.filter(id => id !== item.id));
+                          }
+                        }}
+                        className="rounded"
+                      />
+                    </td>
+                    <td className="p-4 font-medium">{idx + 1}</td>
+                    <td className="p-4">
+                      <div className="font-medium">{item.type}</div>
+                    </td>
+                    <td className="p-4 font-medium text-green-600">{formatMoney(item.price)}</td>
+                    <td className="p-4">{item.quantity}</td>
+                    <td className="p-4">
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                        item.status === 'ສັ່ງຊື້ສຳເລັດ' ? 'bg-green-100 text-green-800' :
+                        item.status === 'ກຳລັງອານຸມັດ' ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-red-100 text-red-800'
+                      }`}>
+                        {item.status}
+                      </span>
+                    </td>
+                    <td className="p-4 text-gray-600">{item.date}</td>
+                    <td className="p-4">
+                      {item.status === "ກຳລັງອານຸມັດ" && (
+                        <div className="flex gap-2">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onApprove(item.id);
+                            }}
+                            className="bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 text-sm font-medium transition-colors"
+                          >
+                            ອະນຸມັດ
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onCancel(item.id);
+                            }}
+                            className="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700 text-sm font-medium transition-colors"
+                          >
+                            ຍົກເລີກ
+                          </button>
+                        </div>
+                      )}
+                      {item.status === "ສັ່ງຊື້ສຳເລັດ" && (
+                        <span className="bg-green-600 text-white px-3 py-1 rounded-md text-sm font-medium">
+                          ສຳເລັດ
+                        </span>
+                      )}
+                      {item.status === "ຍົກເລີກການສັ່ງຊື້" && (
+                        <span className="bg-gray-500 text-white px-3 py-1 rounded-md text-sm font-medium">
+                          ຍົກເລີກແລ້ວ
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
