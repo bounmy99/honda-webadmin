@@ -42,7 +42,6 @@ export default function ManageCarsPage() {
         </button>
       </div>
 
-      
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <div className="overflow-x-auto text-center">
           <table className="min-w-full">
@@ -54,6 +53,7 @@ export default function ManageCarsPage() {
                 <th className="p-4">ສີລົດ</th>
                 <th className="p-4">ປະເພດລົດ</th>
                 <th className="p-4">ເລກຖັງ</th>
+                <th className="p-4">ເລກປ້າຍທະບຽນ</th>
                 <th className="p-4">ລາຄາ</th>
                 <th className="p-4 text-center">ຈັດການ</th>
               </tr>
