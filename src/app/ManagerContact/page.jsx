@@ -1,4 +1,5 @@
 "use client";
+import { Suspense } from "react";
 import React, { useState, useEffect } from "react";
 import Topbar from "./components/Topbar";
 import ActionButtons from "./components/ActionButtons";
@@ -77,48 +78,57 @@ const ManagerCar = () => {
       <Topbar />
       <div className="min-h-screen bg-gray-50 p-6 ml-64">
         <SideBar />
-        <div className="max-w-7xl mx-auto">
-          <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
-          <div className="flex gap-4 mb-6 mt-6 justify-between items-center">
-            <SearchBox searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-
-            <div className="flex gap-2">
-              {activeTab === 3 ? (
-                <Link
-                  href="/ManagerContact/add2"
-                  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-                >
-                  Import
-                </Link>
-              ) : (
-                <Link
-                  href="/ManagerContact/add"
-                  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-                >
-                  Import
-                </Link>
-              )}
-
-              <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
-                Export
-              </button>
-            </div>
-          </div>
-
-          {activeTab === 3 ? (
-            <CustomerErrorTable
-              data={tabCategories[3]}
-              onView={(item) => console.log("View", item)}
-              onDelete={handleDeleteCar}
-            />
-          ) : (
-            <MessageTable
-              data={tabCategories[activeTab]}
-              onDelete={handleDeleteCar}
+        <Suspense fallback={<div>Loading...</div>}>
+          <div className="max-w-7xl mx-auto">
+            <Tabs
+              tabs={tabs}
               activeTab={activeTab}
+              setActiveTab={setActiveTab}
             />
-          )}
-        </div>
+            <div className="flex gap-4 mb-6 mt-6 justify-between items-center">
+              <SearchBox
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+              />
+
+              <div className="flex gap-2">
+                {activeTab === 3 ? (
+                  <Link
+                    href="/ManagerContact/add2"
+                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                  >
+                    Import
+                  </Link>
+                ) : (
+                  <Link
+                    href="/ManagerContact/add"
+                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                  >
+                    Import
+                  </Link>
+                )}
+
+                <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                  Export
+                </button>
+              </div>
+            </div>
+
+            {activeTab === 3 ? (
+              <CustomerErrorTable
+                data={tabCategories[3]}
+                onView={(item) => console.log("View", item)}
+                onDelete={handleDeleteCar}
+              />
+            ) : (
+              <MessageTable
+                data={tabCategories[activeTab]}
+                onDelete={handleDeleteCar}
+                activeTab={activeTab}
+              />
+            )}
+          </div>
+        </Suspense>
       </div>
     </>
   );
