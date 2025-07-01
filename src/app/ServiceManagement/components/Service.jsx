@@ -1,12 +1,31 @@
 "use client";
-import { useState } from 'react';
-import { Search, Trash2, Calendar, ChevronDown, FileText, Settings, AlertCircle, Wrench, BarChart, Plus, X, User, Clock, CheckCircle, Eye, Phone, MapPin, CreditCard } from 'lucide-react';
+import { useState } from "react";
+import {
+  Search,
+  Trash2,
+  Calendar,
+  ChevronDown,
+  FileText,
+  Settings,
+  AlertCircle,
+  Wrench,
+  BarChart,
+  Plus,
+  X,
+  User,
+  Clock,
+  CheckCircle,
+  Eye,
+  Phone,
+  MapPin,
+  CreditCard,
+} from "lucide-react";
 
 export default function DocumentManagementPage() {
-  const [activeTab, setActiveTab] = useState('equipment');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [activeTab, setActiveTab] = useState("equipment");
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
-  const [currentDate, setCurrentDate] = useState('ວັນທີ');
+  const [currentDate, setCurrentDate] = useState("ວັນທີ");
   const [showCustomerModal, setShowCustomerModal] = useState(false);
   const [showAddCustomerForm, setShowAddCustomerForm] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
@@ -15,59 +34,167 @@ export default function DocumentManagementPage() {
   const [showRepairDetails, setShowRepairDetails] = useState(false);
   const [selectedRepair, setSelectedRepair] = useState(null);
   const [newCustomer, setNewCustomer] = useState({
-    name: '',
-    phone: '',
-    vehicle: '',
-    idCard: ''
+    name: "",
+    phone: "",
+    vehicle: "",
+    idCard: "",
   });
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    price: "",
+    distance: "",
+    brand: "",
+    model: "",
+    color: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = () => {
+    console.log("Form data:", formData);
+    // Handle form submission here
+    setIsOpen(false);
+  };
+
+  const resetForm = () => {
+    setFormData({
+      price: "",
+      distance: "",
+      brand: "",
+      model: "",
+      color: "",
+    });
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+    resetForm();
+  };
 
   // Mock customer data
   const [customers, setCustomers] = useState([
-    { id: 1, name: 'ສີດາ ແກ້ວດາລາ', phone: '55667788', vehicle: 'ທົ່ງສາງນາງ ໄຊເສດຖາ ນະຄອນຫລວງ', idCard: '1234567891' },
-    { id: 2, name: 'ສີດາ ແກ້ວດາລາ', phone: '55667788', vehicle: 'ທົ່ງສາງນາງ ໄຊເສດຖາ ນະຄອນຫລວງ', idCard: '1234567891' },
-    { id: 3, name: 'ສີດາ ແກ້ວດາລາ', phone: '55667788', vehicle: 'ທົ່ງສາງນາງ ໄຊເສດຖາ ນະຄອນຫລວງ', idCard: '1234567891' },
-    { id: 4, name: 'ສີດາ ແກ້ວດາລາ', phone: '55667788', vehicle: 'ທົ່ງສາງນາງ ໄຊເສດຖາ ນະຄອນຫລວງ', idCard: '1234567891' },
-    { id: 5, name: 'ສີດາ ແກ້ວດາລາ', phone: '55667788', vehicle: 'ທົ່ງສາງນາງ ໄຊເສດຖາ ນະຄອນຫລວງ', idCard: '1234567891' },
-    { id: 6, name: 'ສີດາ ແກ້ວດາລາ', phone: '55667788', vehicle: 'ທົ່ງສາງນາງ ໄຊເສດຖາ ນະຄອນຫລວງ', idCard: '1234567891' },
-    { id: 7, name: 'ສີດາ ແກ້ວດາລາ', phone: '55667788', vehicle: 'ທົ່ງສາງນາງ ໄຊເສດຖາ ນະຄອນຫລວງ', idCard: '1234567891' }
+    {
+      id: 1,
+      name: "ສີດາ ແກ້ວດາລາ",
+      phone: "55667788",
+      vehicle: "ທົ່ງສາງນາງ ໄຊເສດຖາ ນະຄອນຫລວງ",
+      idCard: "1234567891",
+    },
+    {
+      id: 2,
+      name: "ສີດາ ແກ້ວດາລາ",
+      phone: "55667788",
+      vehicle: "ທົ່ງສາງນາງ ໄຊເສດຖາ ນະຄອນຫລວງ",
+      idCard: "1234567891",
+    },
+    {
+      id: 3,
+      name: "ສີດາ ແກ້ວດາລາ",
+      phone: "55667788",
+      vehicle: "ທົ່ງສາງນາງ ໄຊເສດຖາ ນະຄອນຫລວງ",
+      idCard: "1234567891",
+    },
+    {
+      id: 4,
+      name: "ສີດາ ແກ້ວດາລາ",
+      phone: "55667788",
+      vehicle: "ທົ່ງສາງນາງ ໄຊເສດຖາ ນະຄອນຫລວງ",
+      idCard: "1234567891",
+    },
+    {
+      id: 5,
+      name: "ສີດາ ແກ້ວດາລາ",
+      phone: "55667788",
+      vehicle: "ທົ່ງສາງນາງ ໄຊເສດຖາ ນະຄອນຫລວງ",
+      idCard: "1234567891",
+    },
+    {
+      id: 6,
+      name: "ສີດາ ແກ້ວດາລາ",
+      phone: "55667788",
+      vehicle: "ທົ່ງສາງນາງ ໄຊເສດຖາ ນະຄອນຫລວງ",
+      idCard: "1234567891",
+    },
+    {
+      id: 7,
+      name: "ສີດາ ແກ້ວດາລາ",
+      phone: "55667788",
+      vehicle: "ທົ່ງສາງນາງ ໄຊເສດຖາ ນະຄອນຫລວງ",
+      idCard: "1234567891",
+    },
   ]);
 
   // Mock data for existing documents
   const existingDocuments = [
-    { id: 1, icon: AlertCircle, type: 'ປ່ຽນເບກໜ້າ', category: 'ລົດຈັກ', date: '20/6/2025', time: '13:45' },
-    { id: 2, icon: Calendar, type: 'ກວດເຊັກຊ່ວງລາງ', category: 'ລົດໃຫຍ່', date: '20/6/2025', time: '13:45' },
-    { id: 3, icon: FileText, type: 'ປ່ຽນເບກຫຼັງ', category: 'ລົດຈັກ', date: '20/6/2025', time: '13:45' },
-    { id: 4, icon: Wrench, type: 'ປ່ຽນນໍ້າມັນເຄື່ອງ', category: 'ລົດໃຫຍ່', date: '20/6/2025', time: '13:45' }
+    {
+      id: 1,
+      icon: AlertCircle,
+      type: "ປ່ຽນເບກໜ້າ",
+      category: "ລົດຈັກ",
+      date: "20/6/2025",
+      time: "13:45",
+    },
+    {
+      id: 2,
+      icon: Calendar,
+      type: "ກວດເຊັກຊ່ວງລາງ",
+      category: "ລົດໃຫຍ່",
+      date: "20/6/2025",
+      time: "13:45",
+    },
+    {
+      id: 3,
+      icon: FileText,
+      type: "ປ່ຽນເບກຫຼັງ",
+      category: "ລົດຈັກ",
+      date: "20/6/2025",
+      time: "13:45",
+    },
+    {
+      id: 4,
+      icon: Wrench,
+      type: "ປ່ຽນນໍ້າມັນເຄື່ອງ",
+      category: "ລົດໃຫຍ່",
+      date: "20/6/2025",
+      time: "13:45",
+    },
   ];
 
   // Available items to add
   const availableItems = [
-    { id: 'item1', icon: Settings, name: 'ກວດເຊັກທົ່ວໄປ' },
-    { id: 'item2', icon: FileText, name: 'ບໍລິການສ້ອມແປງລະບົບແອພາຍໃນ' },
-    { id: 'item3', icon: BarChart, name: 'ກວດເຊັກ(ໄຟທ້າຍ,ໄຟໜ້າ)' },
-    { id: 'item4', icon: Settings, name: 'ກວດເຊັກລະບົບເບກ' },
-    { id: 'item5', icon: AlertCircle, name: 'ປ່ຽນຖ່າຍນ້ຳມັນເຄື່ອງ' },
-    { id: 'item6', icon: Wrench, name: 'ປ່ຽນໝໍ້ໄຟ' },
-    { id: 'item7', icon: BarChart, name: 'ກວດເຊັກໄລຍະທາງ' },
-    { id: 'item8', icon: Calendar, name: 'ປ່ຽນແກລົດ' },
-    { id: 'item9', icon: FileText, name: 'ປ່ຽນນ້ຳມັນເບກ' }
+    { id: "item1", icon: Settings, name: "ກວດເຊັກທົ່ວໄປ" },
+    { id: "item2", icon: FileText, name: "ບໍລິການສ້ອມແປງລະບົບແອພາຍໃນ" },
+    { id: "item3", icon: BarChart, name: "ກວດເຊັກ(ໄຟທ້າຍ,ໄຟໜ້າ)" },
+    { id: "item4", icon: Settings, name: "ກວດເຊັກລະບົບເບກ" },
+    { id: "item5", icon: AlertCircle, name: "ປ່ຽນຖ່າຍນ້ຳມັນເຄື່ອງ" },
+    { id: "item6", icon: Wrench, name: "ປ່ຽນໝໍ້ໄຟ" },
+    { id: "item7", icon: BarChart, name: "ກວດເຊັກໄລຍະທາງ" },
+    { id: "item8", icon: Calendar, name: "ປ່ຽນແກລົດ" },
+    { id: "item9", icon: FileText, name: "ປ່ຽນນ້ຳມັນເບກ" },
   ];
 
   const tabs = [
-    { key: 'equipment', label: 'ຂໍ້ມູນບໍລິການ', active: false },
-    { key: 'documents', label: 'ການສ້ອມແປງ', active: true },
-    { key: 'requests', label: 'ກຳລັງສ້ອມແປງ', active: false },
-    { key: 'management', label: 'ປະຫວັດການສ້ອມແປງ', active: false }
+    { key: "equipment", label: "ຂໍ້ມູນບໍລິການ", active: false },
+    { key: "documents", label: "ການສ້ອມແປງ", active: true },
+    { key: "requests", label: "ກຳລັງສ້ອມແປງ", active: false },
+    { key: "management", label: "ປະຫວັດການສ້ອມແປງ", active: false },
   ];
 
   const handleAddItem = (item) => {
-    if (!selectedItems.find(selected => selected.id === item.id)) {
+    if (!selectedItems.find((selected) => selected.id === item.id)) {
       setSelectedItems([...selectedItems, item]);
     }
   };
 
   const handleRemoveItem = (itemId) => {
-    setSelectedItems(selectedItems.filter(item => item.id !== itemId));
+    setSelectedItems(selectedItems.filter((item) => item.id !== itemId));
   };
 
   const handleComplete = () => {
@@ -86,47 +213,58 @@ export default function DocumentManagementPage() {
         id: Date.now(),
         customer: selectedCustomer,
         items: [...selectedItems],
-        startDate: new Date().toLocaleDateString('en-GB'),
-        startTime: new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }),
-        status: 'ກຳລັງສ້ອມແປງ',
+        startDate: new Date().toLocaleDateString("en-GB"),
+        startTime: new Date().toLocaleTimeString("en-GB", {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+        status: "ກຳລັງສ້ອມແປງ",
         cost: selectedItems.length * 1000000, // Mock cost calculation
-        estimatedCompletion: '2 hours',
-        mechanic: 'ນາງດາລາ ແກ້ວວົງ',
-        priority: 'ປົກກະຕິ',
-        notes: 'ກວດເຊັກທົ່ວໄປ ແລະ ປ່ຽນອາໄຫຼ່'
+        estimatedCompletion: "2 hours",
+        mechanic: "ນາງດາລາ ແກ້ວວົງ",
+        priority: "ປົກກະຕິ",
+        notes: "ກວດເຊັກທົ່ວໄປ ແລະ ປ່ຽນອາໄຫຼ່",
       };
-      
+
       setActiveRepairs([...activeRepairs, newRepair]);
       setSelectedItems([]);
       setSelectedCustomer(null);
       setShowCustomerModal(false);
-      setActiveTab('requests'); // Switch to active repairs tab
+      setActiveTab("requests"); // Switch to active repairs tab
     }
   };
 
   const handleCompleteRepair = (repairId) => {
-    const repair = activeRepairs.find(r => r.id === repairId);
+    const repair = activeRepairs.find((r) => r.id === repairId);
     if (repair) {
       const completedRepair = {
         ...repair,
-        status: 'ສຳເລັດແລ້ວ',
-        endDate: new Date().toLocaleDateString('en-GB'),
-        endTime: new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
+        status: "ສຳເລັດແລ້ວ",
+        endDate: new Date().toLocaleDateString("en-GB"),
+        endTime: new Date().toLocaleTimeString("en-GB", {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
       };
-      
+
       setRepairHistory([...repairHistory, completedRepair]);
-      setActiveRepairs(activeRepairs.filter(r => r.id !== repairId));
+      setActiveRepairs(activeRepairs.filter((r) => r.id !== repairId));
     }
   };
 
   const handleAddCustomer = () => {
-    if (newCustomer.name && newCustomer.phone && newCustomer.vehicle && newCustomer.idCard) {
+    if (
+      newCustomer.name &&
+      newCustomer.phone &&
+      newCustomer.vehicle &&
+      newCustomer.idCard
+    ) {
       const customer = {
         id: customers.length + 1,
-        ...newCustomer
+        ...newCustomer,
       };
       setCustomers([...customers, customer]);
-      setNewCustomer({ name: '', phone: '', vehicle: '', idCard: '' });
+      setNewCustomer({ name: "", phone: "", vehicle: "", idCard: "" });
       setShowAddCustomerForm(false);
     }
   };
@@ -145,7 +283,9 @@ export default function DocumentManagementPage() {
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-bold">ລາຍລະອຽດການສ້ອມແປງ</h2>
-              <p className="text-blue-100 mt-1">Order ID: #{selectedRepair?.id}</p>
+              <p className="text-blue-100 mt-1">
+                Order ID: #{selectedRepair?.id}
+              </p>
             </div>
             <button
               onClick={() => setShowRepairDetails(false)}
@@ -162,35 +302,45 @@ export default function DocumentManagementPage() {
             <div className="bg-gray-50 rounded-xl p-6">
               <div className="flex items-center gap-3 mb-4">
                 <User className="w-6 h-6 text-blue-600" />
-                <h3 className="text-lg font-bold text-gray-900">ຂໍ້ມູນລູກຄ້າ</h3>
+                <h3 className="text-lg font-bold text-gray-900">
+                  ຂໍ້ມູນລູກຄ້າ
+                </h3>
               </div>
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
                   <User className="w-5 h-5 text-gray-400" />
                   <div>
                     <p className="text-sm text-gray-600">ຊື່ ແລະ ນາມສະກຸນ</p>
-                    <p className="font-medium text-gray-900">{selectedRepair?.customer?.name}</p>
+                    <p className="font-medium text-gray-900">
+                      {selectedRepair?.customer?.name}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <Phone className="w-5 h-5 text-gray-400" />
                   <div>
                     <p className="text-sm text-gray-600">ເບີໂທລະສັບ</p>
-                    <p className="font-medium text-gray-900">{selectedRepair?.customer?.phone}</p>
+                    <p className="font-medium text-gray-900">
+                      {selectedRepair?.customer?.phone}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <MapPin className="w-5 h-5 text-gray-400" />
                   <div>
                     <p className="text-sm text-gray-600">ທີ່ຢູ່ປະຈຸບັນ</p>
-                    <p className="font-medium text-gray-900">{selectedRepair?.customer?.vehicle}</p>
+                    <p className="font-medium text-gray-900">
+                      {selectedRepair?.customer?.vehicle}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <CreditCard className="w-5 h-5 text-gray-400" />
                   <div>
                     <p className="text-sm text-gray-600">ເລກທີບັດປະຈຳຕົວ</p>
-                    <p className="font-medium text-gray-900">{selectedRepair?.customer?.idCard}</p>
+                    <p className="font-medium text-gray-900">
+                      {selectedRepair?.customer?.idCard}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -200,14 +350,18 @@ export default function DocumentManagementPage() {
             <div className="bg-gray-50 rounded-xl p-6">
               <div className="flex items-center gap-3 mb-4">
                 <Wrench className="w-6 h-6 text-green-600" />
-                <h3 className="text-lg font-bold text-gray-900">ຂໍ້ມູນການສ້ອມແປງ</h3>
+                <h3 className="text-lg font-bold text-gray-900">
+                  ລາຍການສ້ອມແປງ
+                </h3>
               </div>
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
                   <Clock className="w-5 h-5 text-gray-400" />
                   <div>
                     <p className="text-sm text-gray-600">ວັນທີ່ເລີ່ມ</p>
-                    <p className="font-medium text-gray-900">{selectedRepair?.startDate} - {selectedRepair?.startTime}</p>
+                    <p className="font-medium text-gray-900">
+                      {selectedRepair?.startDate} - {selectedRepair?.startTime}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -223,14 +377,18 @@ export default function DocumentManagementPage() {
                   <BarChart className="w-5 h-5 text-gray-400" />
                   <div>
                     <p className="text-sm text-gray-600">ຄວາມສຳຄັນ</p>
-                    <p className="font-medium text-gray-900">{selectedRepair?.priority}</p>
+                    <p className="font-medium text-gray-900">
+                      {selectedRepair?.priority}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <User className="w-5 h-5 text-gray-400" />
                   <div>
                     <p className="text-sm text-gray-600">ຊ່າງສ້ອມແປງ</p>
-                    <p className="font-medium text-gray-900">{selectedRepair?.mechanic}</p>
+                    <p className="font-medium text-gray-900">
+                      {selectedRepair?.mechanic}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -246,7 +404,10 @@ export default function DocumentManagementPage() {
               {selectedRepair?.items?.map((item, index) => {
                 const IconComponent = item.icon;
                 return (
-                  <div key={index} className="px-6 py-4 flex items-center gap-4">
+                  <div
+                    key={index}
+                    className="px-6 py-4 flex items-center gap-4"
+                  >
                     <div className="bg-blue-100 p-2 rounded-lg">
                       <IconComponent className="w-6 h-6 text-blue-600" />
                     </div>
@@ -266,15 +427,23 @@ export default function DocumentManagementPage() {
 
           {/* Cost Summary */}
           <div className="mt-6 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-6">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">ສະຫລຸບຄ່າໃຊ້ຈ່າຍ</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-4">
+              ສະຫລຸບຄ່າໃຊ້ຈ່າຍ
+            </h3>
             <div className="space-y-2">
               <div className="flex justify-between">
-                <span className="text-gray-600">ຄ່າບໍລິການ ({selectedRepair?.items?.length} ລາຍການ)</span>
-                <span className="font-medium">{selectedRepair?.cost?.toLocaleString()}ກີບ</span>
+                <span className="text-gray-600">
+                  ຄ່າບໍລິການ ({selectedRepair?.items?.length} ລາຍການ)
+                </span>
+                <span className="font-medium">
+                  {selectedRepair?.cost?.toLocaleString()}ກີບ
+                </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">VAT (10%)</span>
-                <span className="font-medium">{((selectedRepair?.cost || 0) * 0.1).toLocaleString()} ກີບ</span>
+                <span className="font-medium">
+                  {((selectedRepair?.cost || 0) * 0.1).toLocaleString()} ກີບ
+                </span>
               </div>
               <div className="border-t pt-2 flex justify-between">
                 <span className="font-bold text-lg">ລວມທັງໝົດ</span>
@@ -381,23 +550,33 @@ export default function DocumentManagementPage() {
 
           <div className="overflow-y-auto max-h-96 divide-y divide-gray-100">
             {customers.map((customer, index) => (
-              <div 
-                key={customer.id} 
+              <div
+                key={customer.id}
                 onClick={() => handleCustomerSelect(customer)}
                 className={`px-6 py-4 cursor-pointer transition-colors ${
                   selectedCustomer?.id === customer.id
-                    ? 'bg-green-50 border-l-4 border-green-500'
-                    : 'hover:bg-gray-50'
+                    ? "bg-green-50 border-l-4 border-green-500"
+                    : "hover:bg-gray-50"
                 }`}
               >
                 <div className="grid grid-cols-6 gap-4 items-center text-sm">
-                  <div className="text-center font-medium text-gray-900">{String(customer.id).padStart(3, '0')}</div>
-                  <div className="text-center text-gray-900">{customer.name}</div>
-                  <div className="text-center text-gray-600">{customer.phone}</div>
-                  <div className="text-center text-gray-600">{customer.vehicle}</div>
-                  <div className="text-center text-gray-600">{customer.idCard}</div>
+                  <div className="text-center font-medium text-gray-900">
+                    {String(customer.id).padStart(3, "0")}
+                  </div>
+                  <div className="text-center text-gray-900">
+                    {customer.name}
+                  </div>
+                  <div className="text-center text-gray-600">
+                    {customer.phone}
+                  </div>
+                  <div className="text-center text-gray-600">
+                    {customer.vehicle}
+                  </div>
+                  <div className="text-center text-gray-600">
+                    {customer.idCard}
+                  </div>
                   <div className="text-center">
-                    <button 
+                    <button
                       onClick={(e) => {
                         e.stopPropagation();
                         // Handle delete
@@ -441,7 +620,9 @@ export default function DocumentManagementPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-60">
           <div className="bg-white rounded-2xl p-6 max-w-md w-full mx-4">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold text-gray-900">ເພີ່ມລູກຄ້າໃໝ່</h3>
+              <h3 className="text-lg font-bold text-gray-900">
+                ເພີ່ມລູກຄ້າໃໝ່
+              </h3>
               <button
                 onClick={() => setShowAddCustomerForm(false)}
                 className="text-gray-400 hover:text-gray-600"
@@ -449,49 +630,65 @@ export default function DocumentManagementPage() {
                 <X className="w-6 h-6" />
               </button>
             </div>
-            
+
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">ຊື່ ແລະ ນາມສະກຸນ</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  ຊື່ ແລະ ນາມສະກຸນ
+                </label>
                 <input
                   type="text"
                   value={newCustomer.name}
-                  onChange={(e) => setNewCustomer({...newCustomer, name: e.target.value})}
+                  onChange={(e) =>
+                    setNewCustomer({ ...newCustomer, name: e.target.value })
+                  }
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 />
               </div>
-              
+
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">ເບີໂທລະສັບ</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  ເບີໂທລະສັບ
+                </label>
                 <input
                   type="text"
                   value={newCustomer.phone}
-                  onChange={(e) => setNewCustomer({...newCustomer, phone: e.target.value})}
+                  onChange={(e) =>
+                    setNewCustomer({ ...newCustomer, phone: e.target.value })
+                  }
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 />
               </div>
-              
+
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">ທີ່ຢູ່ປະຈຸບັນ</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  ທີ່ຢູ່ປະຈຸບັນ
+                </label>
                 <input
                   type="text"
                   value={newCustomer.vehicle}
-                  onChange={(e) => setNewCustomer({...newCustomer, vehicle: e.target.value})}
+                  onChange={(e) =>
+                    setNewCustomer({ ...newCustomer, vehicle: e.target.value })
+                  }
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 />
               </div>
-              
+
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">ເລກທີບັດປະຈຳຕົວ</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  ເລກທີບັດປະຈຳຕົວ
+                </label>
                 <input
                   type="text"
                   value={newCustomer.idCard}
-                  onChange={(e) => setNewCustomer({...newCustomer, idCard: e.target.value})}
+                  onChange={(e) =>
+                    setNewCustomer({ ...newCustomer, idCard: e.target.value })
+                  }
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 />
               </div>
             </div>
-            
+
             <div className="flex gap-3 mt-6">
               <button
                 onClick={() => setShowAddCustomerForm(false)}
@@ -540,7 +737,7 @@ export default function DocumentManagementPage() {
             </div>
 
             <button className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl font-medium transition-colors">
-              {activeTab === 'documents' ? 'Export' : 'ເພີ່ມ'}
+              {activeTab === "documents" ? "Export" : "ເພີ່ມ"}
             </button>
           </div>
 
@@ -552,8 +749,8 @@ export default function DocumentManagementPage() {
                 onClick={() => setActiveTab(tab.key)}
                 className={`px-6 py-3 rounded-xl font-medium transition-colors ${
                   activeTab === tab.key
-                    ? 'bg-gray-800 text-white'
-                    : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
+                    ? "bg-gray-800 text-white"
+                    : "bg-gray-200 text-gray-600 hover:bg-gray-300"
                 }`}
               >
                 {tab.label}
@@ -563,7 +760,7 @@ export default function DocumentManagementPage() {
         </div>
 
         {/* Content based on active tab */}
-        {activeTab === 'equipment' && (
+        {activeTab === "equipment" && (
           <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
             <div className="bg-gray-500 text-white px-6 py-4">
               <div className="grid grid-cols-12 gap-4 font-medium">
@@ -582,12 +779,18 @@ export default function DocumentManagementPage() {
                 return (
                   <div key={doc.id} className="px-6 py-4 hover:bg-gray-50">
                     <div className="grid grid-cols-12 gap-4 items-center">
-                      <div className="col-span-1 font-medium text-gray-900">{index + 1}</div>
+                      <div className="col-span-1 font-medium text-gray-900">
+                        {index + 1}
+                      </div>
                       <div className="col-span-2">
                         <IconComponent className="w-8 h-8 text-gray-700" />
                       </div>
-                      <div className="col-span-3 font-medium text-gray-900">{doc.type}</div>
-                      <div className="col-span-2 text-gray-600">{doc.category}</div>
+                      <div className="col-span-3 font-medium text-gray-900">
+                        {doc.type}
+                      </div>
+                      <div className="col-span-2 text-gray-600">
+                        {doc.category}
+                      </div>
                       <div className="col-span-2 text-gray-600">{doc.date}</div>
                       <div className="col-span-1 text-gray-600">{doc.time}</div>
                       <div className="col-span-1">
@@ -603,17 +806,22 @@ export default function DocumentManagementPage() {
           </div>
         )}
 
-        {activeTab === 'documents' && (
+        {activeTab === "documents" && (
           <div className="flex gap-6">
             <div className="flex-1">
               <div className="grid grid-cols-3 gap-6">
                 {availableItems.map((item) => {
                   const IconComponent = item.icon;
                   return (
-                    <div key={item.id} className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div
+                      key={item.id}
+                      className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow"
+                    >
                       <div className="text-center mb-4">
                         <IconComponent className="w-12 h-12 mx-auto mb-3 text-gray-700" />
-                        <h3 className="font-medium text-gray-900 mb-2">{item.name}</h3>
+                        <h3 className="font-medium text-gray-900 mb-2">
+                          {item.name}
+                        </h3>
                       </div>
                       <button
                         onClick={() => handleAddItem(item)}
@@ -631,11 +839,16 @@ export default function DocumentManagementPage() {
               {selectedItems.map((item) => {
                 const IconComponent = item.icon;
                 return (
-                  <div key={item.id} className="bg-white rounded-2xl p-4 shadow-sm border">
+                  <div
+                    key={item.id}
+                    className="bg-white rounded-2xl p-4 shadow-sm border"
+                  >
                     <div className="flex items-center gap-3">
                       <IconComponent className="w-8 h-8 text-gray-700 flex-shrink-0" />
                       <div className="flex-1 min-w-0">
-                        <h4 className="font-medium text-gray-900 truncate">{item.name}</h4>
+                        <h4 className="font-medium text-gray-900 truncate">
+                          {item.name}
+                        </h4>
                       </div>
                       <button
                         onClick={() => handleRemoveItem(item.id)}
@@ -671,7 +884,7 @@ export default function DocumentManagementPage() {
           </div>
         )}
 
-        {activeTab === 'requests' && (
+        {activeTab === "requests" && (
           <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
             <div className="bg-gray-500 text-white px-6 py-4">
               <div className="grid grid-cols-12 gap-4 font-medium">
@@ -686,20 +899,34 @@ export default function DocumentManagementPage() {
             </div>
             <div className="divide-y divide-gray-100">
               {activeRepairs.map((repair, index) => (
-                <div key={repair.id} className="px-6 py-4 hover:bg-gray-50">
+                <div
+                  onClick={() => setIsOpen(true)}
+                  key={repair.id}
+                  className="px-6 py-4 hover:bg-gray-50"
+                >
                   <div className="grid grid-cols-12 gap-4 items-center">
-                    <div className="col-span-1 font-medium text-gray-900">{index + 1}</div>
+                    <div className="col-span-1 font-medium text-gray-900">
+                      {index + 1}
+                    </div>
                     <div className="col-span-2">
-                      <div className="font-medium text-gray-900">{repair.customer.name}</div>
-                      <div className="text-sm text-gray-600">{repair.customer.vehicle}</div>
+                      <div className="font-medium text-gray-900">
+                        {repair.customer.name}
+                      </div>
+                      <div className="text-sm text-gray-600">
+                        {repair.customer.vehicle}
+                      </div>
                     </div>
                     <div className="col-span-2">
                       <div className="space-y-1">
                         {repair.items.slice(0, 2).map((item, idx) => (
-                          <div key={idx} className="text-sm text-gray-900">{item.name}</div>
+                          <div key={idx} className="text-sm text-gray-900">
+                            {item.name}
+                          </div>
                         ))}
                         {repair.items.length > 2 && (
-                          <div className="text-xs text-gray-500">+{repair.items.length - 2} ອື່ນໆ</div>
+                          <div className="text-xs text-gray-500">
+                            +{repair.items.length - 2} ອື່ນໆ
+                          </div>
                         )}
                       </div>
                     </div>
@@ -742,7 +969,7 @@ export default function DocumentManagementPage() {
           </div>
         )}
 
-        {activeTab === 'management' && (
+        {activeTab === "management" && (
           <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
             <div className="bg-gray-500 text-white px-6 py-4">
               <div className="grid grid-cols-12 gap-4 font-medium">
@@ -759,21 +986,31 @@ export default function DocumentManagementPage() {
               {repairHistory.map((repair, index) => (
                 <div key={repair.id} className="px-6 py-4 hover:bg-gray-50">
                   <div className="grid grid-cols-12 gap-4 items-center">
-                    <div className="col-span-1 font-medium text-gray-900">{index + 1}</div>
-                    <div className="col-span-2 text-gray-600">00{repair.customer.id}</div>
+                    <div className="col-span-1 font-medium text-gray-900">
+                      {index + 1}
+                    </div>
+                    <div className="col-span-2 text-gray-600">
+                      00{repair.customer.id}
+                    </div>
                     <div className="col-span-2">
                       <div className="font-medium text-gray-900">
-                        {repair.items[0]?.name || 'ບໍລິການ'}
+                        {repair.items[0]?.name || "ບໍລິການ"}
                       </div>
                       {repair.items.length > 1 && (
-                        <div className="text-xs text-gray-500">+{repair.items.length - 1} ອື່ນໆ</div>
+                        <div className="text-xs text-gray-500">
+                          +{repair.items.length - 1} ອື່ນໆ
+                        </div>
                       )}
                     </div>
                     <div className="col-span-2 font-medium text-gray-900">
                       {repair.cost.toLocaleString()}.000
                     </div>
-                    <div className="col-span-2 text-gray-600">{repair.endDate || repair.startDate}</div>
-                    <div className="col-span-1 text-gray-600">{repair.endTime || repair.startTime}</div>
+                    <div className="col-span-2 text-gray-600">
+                      {repair.endDate || repair.startDate}
+                    </div>
+                    <div className="col-span-1 text-gray-600">
+                      {repair.endTime || repair.startTime}
+                    </div>
                     <div className="col-span-2 text-gray-600">5293.2km</div>
                   </div>
                 </div>
@@ -789,6 +1026,140 @@ export default function DocumentManagementPage() {
 
         {showCustomerModal && <CustomerModal />}
         {showRepairDetails && <RepairDetailsModal />}
+
+        {isOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            {/* Modal Content */}
+            <div className="bg-white rounded-xl shadow-2xl w-full max-w-md mx-auto transform transition-all">
+              {/* Modal Header */}
+              <div className="flex items-center justify-between p-6 border-b border-gray-200">
+                <h2 className="text-xl font-bold text-gray-800">ຂໍ້ມູນລົດ</h2>
+                <button
+                  onClick={closeModal}
+                  className="text-gray-400 hover:text-gray-600 transition duration-200 p-1"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+
+              {/* Modal Body */}
+              <div className="p-6 space-y-4">
+                {/* ລາຄາ (Price) */}
+                <div>
+                  <label
+                    htmlFor="price"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    ລາຄາ
+                  </label>
+                  <input
+                    type="text"
+                    id="price"
+                    name="price"
+                    value={formData.price}
+                    onChange={handleInputChange}
+                    placeholder="ປ້ອນລາຄາ..."
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition duration-200"
+                  />
+                </div>
+
+                {/* ໄລຍະ/km (Distance) */}
+                <div>
+                  <label
+                    htmlFor="distance"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    ໄລຍະ/km
+                  </label>
+                  <input
+                    type="text"
+                    id="distance"
+                    name="distance"
+                    value={formData.distance}
+                    onChange={handleInputChange}
+                    placeholder="ປ້ອນໄລຍະ..."
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition duration-200"
+                  />
+                </div>
+
+                {/* ແບຣນ (Brand) */}
+                <div>
+                  <label
+                    htmlFor="brand"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    ແບຣນ
+                  </label>
+                  <input
+                    type="text"
+                    id="brand"
+                    name="brand"
+                    value={formData.brand}
+                    onChange={handleInputChange}
+                    placeholder="ປ້ອນແບຣນລົດ..."
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition duration-200"
+                  />
+                </div>
+
+                {/* ລຸ້ນຂອງລົດ (Model) */}
+                <div>
+                  <label
+                    htmlFor="model"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    ລຸ້ນຂອງລົດ
+                  </label>
+                  <input
+                    type="text"
+                    id="model"
+                    name="model"
+                    value={formData.model}
+                    onChange={handleInputChange}
+                    placeholder="ປ້ອນລຸ້ນລົດ..."
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition duration-200"
+                  />
+                </div>
+
+                {/* ສີ (Color) */}
+                <div>
+                  <label
+                    htmlFor="color"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    ສີ
+                  </label>
+                  <input
+                    type="text"
+                    id="color"
+                    name="color"
+                    value={formData.color}
+                    onChange={handleInputChange}
+                    placeholder="ປ້ອນສີລົດ..."
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition duration-200"
+                  />
+                </div>
+
+                {/* Modal Footer */}
+                <div className="flex gap-3 pt-4">
+                  <button
+                    type="button"
+                    onClick={closeModal}
+                    className="flex-1 px-4 py-2 text-gray-700 bg-gray-200 hover:bg-gray-300 rounded-lg transition duration-200 font-medium"
+                  >
+                    ຍົກເລີກ
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleSubmit}
+                    className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-200 font-medium"
+                  >
+                    ບັນທຶກ
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
