@@ -1,4 +1,4 @@
-"use client";
+import { Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -12,7 +12,6 @@ export default function MessageViewPage() {
   const [imagePreview, setImagePreview] = useState(null);
 
   useEffect(() => {
-    // Ensure this effect runs only on the client-side
     if (typeof window === "undefined") return;
 
     const cars = JSON.parse(localStorage.getItem("cars") || "[]");
@@ -110,7 +109,7 @@ export default function MessageViewPage() {
               </label>
               {imagePreview && (
                 <button
-                  // onClick={handleRemoveImage}
+                  onClick={handleRemoveImage}
                   className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
                 >
                   ລຶບຮູບພາບ
