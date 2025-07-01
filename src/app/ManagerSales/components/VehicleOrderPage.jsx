@@ -58,10 +58,14 @@ export default function VehicleOrderPage({ onComplete, cart, setCart }) {
                   alt=""
                 />
                 <div className="w-full text-left text-xs text-gray-700 mb-1">
-                  <div>ເລກລະຫັດລົດ: <b>{v.desc}</b></div>
+                  <div>
+                    ເລກລະຫັດລົດ: <b>{v.desc}</b>
+                  </div>
                   <div>ສີລົດ: {v.color}</div>
                   <div>ປະເພດລົດ: {v.type === "car" ? "ລົດໃຫຍ່" : "ລົດຈັກ"}</div>
-                  <div>ຍີ່ຫໍ້: <b>{v.brand}</b></div>
+                  <div>
+                    ຍີ່ຫໍ້: <b>{v.brand}</b>
+                  </div>
                   <div>ເລກຖັງ: {v.model}</div>
                 </div>
                 <div className="w-full text-green-600 font-bold text-[15px] mb-2">
@@ -95,7 +99,9 @@ export default function VehicleOrderPage({ onComplete, cart, setCart }) {
           {/* Cart Items */}
           <div className="flex flex-col gap-4">
             {cart.length === 0 ? (
-              <div className="text-gray-400 text-center py-12">-- ບໍ່ມີລາຍການ --</div>
+              <div className="text-gray-400 text-center py-12">
+                -- ບໍ່ມີລາຍການ --
+              </div>
             ) : (
               cart.map((v) => (
                 <div
@@ -108,13 +114,27 @@ export default function VehicleOrderPage({ onComplete, cart, setCart }) {
                     alt=""
                   />
                   <div className="flex-1 text-sm text-gray-700 text-left">
-                    <div>ເລກລະຫັດລົດ: <b>{v.desc}</b></div>
+                    <div>
+                      ເລກລະຫັດລົດ: <b>{v.desc}</b>
+                    </div>
                     <div>ສີລົດ: {v.color}</div>
                     <div>ປະເພດ: {v.type === "car" ? "ລົດໃຫຍ່" : "ລົດຈັກ"}</div>
                     <div>ຍີ່ຫໍ້: {v.brand}</div>
                     <div>ເລກຖັງ: {v.model}</div>
                   </div>
                   <div className="font-bold text-green-600 text-[16px]">
+                    <div className="flex gap-2">
+                      <button className="rounded-full w-[40px] h-[40px] bg-green-500 hover:bg-green-600">
+                        -
+                      </button>
+                      <span>1</span>
+                      <button className="rounded-full w-50 h-50 bg-green-500 hover:bg-green-600">
+                        +
+                      </button>
+                      <button className="text-white bg-red-500 hover:bg-red-600 rounded-full w-[50px] h-[50px]">
+                        x
+                      </button>
+                    </div>
                     {formatMoney(v.price)}
                   </div>
                 </div>
@@ -136,7 +156,9 @@ export default function VehicleOrderPage({ onComplete, cart, setCart }) {
             </div>
             <div className="flex justify-between text-gray-800 font-bold border-t pt-2">
               <span>ຍອດລວມທັງໝົດ</span>
-              <span className="text-green-700 text-xl">{formatMoney(cartSum)}</span>
+              <span className="text-green-700 text-xl">
+                {formatMoney(cartSum)}
+              </span>
             </div>
             <button
               onClick={onComplete}

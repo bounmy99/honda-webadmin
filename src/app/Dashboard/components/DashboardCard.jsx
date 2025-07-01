@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import { FaCarAlt } from "react-icons/fa";
 import { MdOutlineShoppingCartCheckout } from "react-icons/md";
@@ -14,8 +14,12 @@ const DashboardItemWithIconLeading = ({ title, value, icon }) => (
   <div className="bg-white rounded-lg shadow-lg p-8 flex items-center space-x-6">
     <div className="text-[#1F263E] text-[50px]">{icon}</div>
     <div>
-      <div className="text-gray-700 text-base font-semibold text-center">{title}</div>
-      <div className="text-2xl font-bold text-[#1F263E] text-center">{value}</div>
+      <div className="text-gray-700 text-base font-semibold text-center">
+        {title}
+      </div>
+      <div className="text-2xl font-bold text-[#1F263E] text-center">
+        {value}
+      </div>
     </div>
   </div>
 );
@@ -23,44 +27,44 @@ const DashboardItemWithIconLeading = ({ title, value, icon }) => (
 const DashboardWithIconsLeading = () => {
   const dataWithIconsLeading = [
     {
-      title: "ຍອດຂາຍທັງໝົດ",
-      value: "1921",
+      title: "ຍອດຂາຍທັງໝົດ/ຄັນ",
+      value: "150",
       icon: <MdOutlineShoppingCartCheckout />,
     },
     {
       title: "ຍອດຂາຍລົດໃຫຍ່/ຄັນ",
-      value: "1420",
+      value: "70",
       icon: <FaCarAlt />,
     },
     {
       title: "ຍອດຂາຍລົດຈັກ/ຄັນ",
-      value: "1420",
+      value: "80",
       icon: <RiEBikeFill />,
     },
     {
       title: "ບໍລິການ",
-      value: "3102",
+      value: "100",
       icon: <BsPersonBadgeFill />,
     },
     {
       title: "ມູນຄ່າທັງໝົດ",
-      value: "1921",
+      value: "20,000,000",
       icon: <IoServer />,
     },
     {
-      title: "ຂໍ້ມູນລູກຄ້າ",
-      value: "2000",
+      title: "ຈັດການສັ່ງຊື້",
+      value: "100",
       icon: <IoPersonAdd />,
     },
     {
       title: "ລາຍງານ",
       value: "3",
-      icon: <BsLayoutTextWindowReverse  />,
+      icon: <BsLayoutTextWindowReverse />,
     },
     {
       title: "ສິດເຂົ້າໃຊ້",
       value: "5",
-      icon: <BsPersonFillLock  />,
+      icon: <BsPersonFillLock />,
     },
   ];
 

@@ -4,7 +4,7 @@ import { RiEBike2Fill } from "react-icons/ri";
 import { BiSolidCarousel } from "react-icons/bi";
 
 export const VEHICLE_TYPES = [
-  { key: "all", label: "ລົດທຸກປະເພດ", icon: <BiSolidCarousel/> },
+  { key: "all", label: "ລົດທຸກປະເພດ", icon: <BiSolidCarousel /> },
   { key: "car", label: "ລົດໃຫຍ່", icon: <FaCar /> },
   { key: "bike", label: "ລົດຈັກ", icon: <RiEBike2Fill /> },
 ];
@@ -12,12 +12,12 @@ export const VEHICLE_TYPES = [
 export const VEHICLES = [
   {
     id: 1,
-    img: "https://images.dealer.com/ddc/vehicles/2020/Honda/Accord/Sedan/perspective/front-left/2020_76.png", 
+    img: "https://images.dealer.com/ddc/vehicles/2020/Honda/Accord/Sedan/perspective/front-left/2020_76.png",
     type: "car",
     color: "ຂາວ",
     brand: "HONDA",
     model: "002233",
-    price: 25000000,
+    price: 2500000000,
     desc: "11-22-33",
   },
   {
@@ -27,7 +27,7 @@ export const VEHICLES = [
     color: "ຟ້າ",
     brand: "HONDA",
     model: "002233",
-    price: 25000000,
+    price: 3000000000,
     desc: "11-22-33",
   },
   {
@@ -37,7 +37,7 @@ export const VEHICLES = [
     color: "ດຳ",
     brand: "HONDA",
     model: "002233",
-    price: 350000000,
+    price: 50000000,
     desc: "11-22-33",
   },
   {
@@ -47,13 +47,11 @@ export const VEHICLES = [
     color: "ເທົ່າ",
     brand: "HONDA",
     model: "002233",
-    price: 360000000,
+    price: 60000000,
     desc: "11-22-33",
   },
 ];
 
-
-
 export function formatMoney(val) {
-  return val.toLocaleString("en-US") + ".000kip";
+  return val.toLocaleString("en-US") + "kip";
 }
