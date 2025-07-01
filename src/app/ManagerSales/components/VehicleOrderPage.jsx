@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { Search } from "lucide-react";
 import { VEHICLE_TYPES, VEHICLES, formatMoney } from "./vehicleData";
+import { LucideMinus } from "lucide-react";
+import { LucidePlus } from "lucide-react";
 
 export default function VehicleOrderPage({ onComplete, cart, setCart }) {
   const [activeType, setActiveType] = useState("all");
@@ -17,10 +19,55 @@ export default function VehicleOrderPage({ onComplete, cart, setCart }) {
   );
 
   const handleAdd = (v) => {
-    if (!cart.find((c) => c.id === v.id)) setCart([...cart, v]);
+    const existingItem = cart.find((c) => c.id === v.id);
+    if (existingItem) {
+      // If item exists, increase quantity
+      setCart(
+        cart.map((item) =>
+          item.id === v.id
+            ? { ...item, quantity: (item.quantity || 1) + 1 }
+            : item
+        )
+      );
+    } else {
+      // Add new item with quantity 1
+      setCart([...cart, { ...v, quantity: 1 }]);
+    }
   };
 
-  const cartSum = cart.reduce((sum, v) => sum + v.price, 0);
+  const handleIncrease = (v) => {
+    setCart(
+      cart.map((item) =>
+        item.id === v.id
+          ? { ...item, quantity: (item.quantity || 1) + 1 }
+          : item
+      )
+    );
+  };
+
+  const handleDecrease = (v) => {
+    const existingItem = cart.find((c) => c.id === v.id);
+    if (existingItem) {
+      if (existingItem.quantity <= 1) {
+        // Remove item if quantity becomes 0
+        setCart(cart.filter((c) => c.id !== v.id));
+      } else {
+        // Decrease quantity
+        setCart(
+          cart.map((item) =>
+            item.id === v.id ? { ...item, quantity: item.quantity - 1 } : item
+          )
+        );
+      }
+    }
+  };
+
+  const handleRemove = (v) => {
+    // Completely remove item from cart
+    setCart(cart.filter((c) => c.id !== v.id));
+  };
+
+  const cartSum = cart.reduce((sum, v) => sum + v.price * (v.quantity || 1), 0);
 
   return (
     <div className="bg-[#f7f8fa] min-h-screen flex flex-col p-4">
@@ -123,19 +170,28 @@ export default function VehicleOrderPage({ onComplete, cart, setCart }) {
                     <div>ເລກຖັງ: {v.model}</div>
                   </div>
                   <div className="font-bold text-green-600 text-[16px]">
-                    <div className="flex gap-2">
-                      <button className="rounded-full w-[40px] h-[40px] bg-green-500 hover:bg-green-600">
-                        -
+                    <div className="flex items-center gap-2 mb-3">
+                      <button
+                        onClick={() => handleDecrease(v)}
+                        className="rounded-full flex justify-center items-center text-white w-[35px] h-[35px] bg-green-500 hover:bg-green-600"
+                      >
+                        <LucideMinus />
                       </button>
-                      <span>1</span>
-                      <button className="rounded-full w-50 h-50 bg-green-500 hover:bg-green-600">
-                        +
+                      <span>{v.quantity || 1}</span>
+                      <button
+                        onClick={() => handleIncrease(v)}
+                        className="rounded-full flex justify-center items-center text-white w-[35px] h-[35px] bg-green-500 hover:bg-green-600"
+                      >
+                        <LucidePlus />
                       </button>
-                      <button className="text-white bg-red-500 hover:bg-red-600 rounded-full w-[50px] h-[50px]">
-                        x
+                      <button
+                        onClick={() => handleRemove(v)}
+                        className="text-white flex justify-center items-center bg-red-500 hover:bg-red-600 rounded-full w-[35px] h-[35px]"
+                      >
+                        ×
                       </button>
                     </div>
-                    {formatMoney(v.price)}
+                    {formatMoney(v.price * (v.quantity || 1))}
                   </div>
                 </div>
               ))

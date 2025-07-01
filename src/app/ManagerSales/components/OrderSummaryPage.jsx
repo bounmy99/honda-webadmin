@@ -5,17 +5,16 @@ import { ArrowLeft, Check, Download, Printer } from "lucide-react";
 // Receipt Component
 function ReceiptPage({ onBack, cart, selectedCustomers }) {
   const cartSum = cart.reduce((sum, v) => sum + v.price, 0);
-  const currentDate = new Date().toLocaleDateString('th-TH');
-  const currentTime = new Date().toLocaleTimeString('th-TH');
-  const receiptNumber = `HD${String(Math.floor(Math.random() * 1000000)).padStart(6, '0')}`;
+  const currentDate = new Date().toLocaleDateString("th-TH");
+  const currentTime = new Date().toLocaleTimeString("th-TH");
+  const receiptNumber = `HD${String(
+    Math.floor(Math.random() * 1000000)
+  ).padStart(6, "0")}`;
   const referenceCode = "sce123";
 
   const formatMoney = (amount) => {
-    return new Intl.NumberFormat('th-TH').format(amount) + ' kip';
+    return new Intl.NumberFormat("th-TH").format(amount) + " kip";
   };
-
-    
-
 
   return (
     <div className="bg-[#f7f8fa] min-h-screen p-4">
@@ -63,21 +62,17 @@ function ReceiptPage({ onBack, cart, selectedCustomers }) {
 
           {/* Items */}
           <div className="border-t border-b py-4 mb-6">
-            
-            
             {cart.map((vehicle, index) => (
               <div key={vehicle.id}>
                 <div className="grid grid-cols-4 gap-2 text-sm mb-2">
-                  <div> ລຳດັບ: {String(index + 1).padStart(3, '0')}</div>
-                  <div>ຈຳນວນ: {String(index + 1).padStart(3,)}</div>
-                  
+                  <div> ລຳດັບ: {String(index + 1).padStart(3, "0")}</div>
+                  <div>ຈຳນວນ: {String(index + 1).padStart(3)}</div>
                 </div>
                 <div className="grid grid-cols-2 gap-2 text-sm mb-3">
                   <div>
                     <div>ເລກຖັງລົດ: {vehicle.model}</div>
                     <div>ລະຫັດລົດ: {vehicle.desc}</div>
                   </div>
-                  
                 </div>
               </div>
             ))}
@@ -117,9 +112,15 @@ function ReceiptPage({ onBack, cart, selectedCustomers }) {
               <h4 className="font-bold mb-3">ຂໍ້ມູນລູກຄ້າ:</h4>
               {selectedCustomers.map((customer) => (
                 <div key={customer.id} className="text-sm space-y-1 mb-3">
-                  <div><strong>ຊື່:</strong> {customer.name}</div>
-                  <div><strong>ເບີ:</strong> {customer.phone}</div>
-                  <div><strong>ລະຫັດ:</strong> {customer.id}</div>
+                  <div>
+                    <strong>ຊື່:</strong> {customer.name}
+                  </div>
+                  <div>
+                    <strong>ເບີ:</strong> {customer.phone}
+                  </div>
+                  <div>
+                    <strong>ລະຫັດ:</strong> {customer.id}
+                  </div>
                 </div>
               ))}
             </div>
@@ -146,10 +147,10 @@ function ReceiptPage({ onBack, cart, selectedCustomers }) {
 export default function OrderSummaryPage({ onBack, cart, selectedCustomers }) {
   const [currentPage, setCurrentPage] = useState("summary"); // "summary" or "receipt"
   const cartSum = cart.reduce((sum, v) => sum + v.price, 0);
-  const currentDate = new Date().toLocaleDateString('en-GB');
+  const currentDate = new Date().toLocaleDateString("en-GB");
 
   const formatMoney = (amount) => {
-    return new Intl.NumberFormat('th-TH').format(amount) + ' kip';
+    return new Intl.NumberFormat("th-TH").format(amount) + " kip";
   };
 
   const handleSave = () => {
@@ -162,10 +163,10 @@ export default function OrderSummaryPage({ onBack, cart, selectedCustomers }) {
 
   if (currentPage === "receipt") {
     return (
-      <ReceiptPage 
-        onBack={handleBackToSummary} 
-        cart={cart} 
-        selectedCustomers={selectedCustomers} 
+      <ReceiptPage
+        onBack={handleBackToSummary}
+        cart={cart}
+        selectedCustomers={selectedCustomers}
       />
     );
   }
@@ -183,20 +184,21 @@ export default function OrderSummaryPage({ onBack, cart, selectedCustomers }) {
               <ArrowLeft size={20} />
               <span className="font-medium">ກັບໄປໜ້າກ່ອນ</span>
             </button>
-            
+
             <div className="text-2xl font-bold">
-              ລາຄາລວມ <span className="text-green-600">{formatMoney(cartSum)}</span>
+              ລາຄາລວມ{" "}
+              <span className="text-green-600">{formatMoney(cartSum)}</span>
             </div>
 
             <div className="flex gap-3">
-              <button 
+              <button
                 onClick={handleSave}
                 className="px-6 py-2 bg-green-500 text-white rounded-xl font-medium hover:bg-green-600 transition-colors"
               >
                 ບັນທຶກ
               </button>
               <button className="px-6 py-2 bg-red-500 text-white rounded-xl font-medium hover:bg-red-600 transition-colors">
-                Download
+                ສຳເລັດ
               </button>
             </div>
           </div>
@@ -214,30 +216,45 @@ export default function OrderSummaryPage({ onBack, cart, selectedCustomers }) {
             {/* Order Items */}
             <div className="p-6">
               {cart.map((vehicle, index) => (
-                <div key={vehicle.id} className="border-b pb-6 mb-6 last:border-b-0 last:mb-0">
+                <div
+                  key={vehicle.id}
+                  className="border-b pb-6 mb-6 last:border-b-0 last:mb-0"
+                >
                   <div className="grid grid-cols-4 items-start gap-6">
                     {/* Vehicle Details */}
                     <div className="space-y-4">
                       <div className="font-bold text-lg">
-                        {index + 1}. {vehicle.id.toString().padStart(3, '0')}{vehicle.model} 
+                        {index + 1}. {vehicle.id.toString().padStart(3, "0")}
+                        {vehicle.model}
                       </div>
-                      
+
                       <div className="flex gap-6">
                         <img
                           src={vehicle.img}
                           className="w-32 h-20 object-contain rounded-lg border"
                           alt=""
                         />
-                        
+
                         <div className="space-y-1 text-sm">
-                          <div><strong>ເລກລະຫັດລົດ:</strong> {vehicle.desc}</div>
-                          <div><strong>ສີລົດ:</strong> {vehicle.color}</div>
-                          <div><strong>ປະເພດລົດ:</strong> {vehicle.type === "car" ? "ລົດໃຫຍ່" : "ລົດຈັກ"}</div>
-                          <div><strong>ຍີ່ຫໍ້:</strong> {vehicle.brand}</div>
-                          <div><strong>ເລກຖັງ:</strong> {vehicle.model}</div>
+                          <div>
+                            <strong>ເລກລະຫັດລົດ:</strong> {vehicle.desc}
+                          </div>
+                          <div>
+                            <strong>ສີລົດ:</strong> {vehicle.color}
+                          </div>
+                          <div>
+                            <strong>ປະເພດລົດ:</strong>{" "}
+                            {vehicle.type === "car" ? "ລົດໃຫຍ່" : "ລົດຈັກ"}
+                          </div>
+                          <div>
+                            <strong>ຍີ່ຫໍ້:</strong> {vehicle.brand}
+                          </div>
+                          <div>
+                            <strong>ເລກຖັງ:</strong> {vehicle.model}
+                          </div>
                         </div>
                       </div>
-                      
+
                       <div className="text-2xl font-bold text-green-600">
                         {formatMoney(vehicle.price)}
                       </div>
@@ -250,7 +267,9 @@ export default function OrderSummaryPage({ onBack, cart, selectedCustomers }) {
 
                     {/* Reference Code */}
                     <div className="text-center">
-                      <div className="text-lg font-medium text-blue-600">sce123</div>
+                      <div className="text-lg font-medium text-blue-600">
+                        sce123
+                      </div>
                     </div>
 
                     {/* Status */}
@@ -271,11 +290,20 @@ export default function OrderSummaryPage({ onBack, cart, selectedCustomers }) {
               <h3 className="text-xl font-bold mb-4">ລູກຄ້າທີ່ເລືອກ:</h3>
               <div className="grid grid-cols-2 gap-4">
                 {selectedCustomers.map((customer) => (
-                  <div key={customer.id} className="bg-white p-4 rounded-xl border">
+                  <div
+                    key={customer.id}
+                    className="bg-white p-4 rounded-xl border"
+                  >
                     <div className="font-bold">{customer.name}</div>
-                    <div className="text-sm text-gray-600">ລະຫັດ: {customer.id}</div>
-                    <div className="text-sm text-gray-600">ເບີ: {customer.phone}</div>
-                    <div className="text-sm text-gray-600">{customer.address}</div>
+                    <div className="text-sm text-gray-600">
+                      ລະຫັດ: {customer.id}
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      ເບີ: {customer.phone}
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      {customer.address}
+                    </div>
                   </div>
                 ))}
               </div>
