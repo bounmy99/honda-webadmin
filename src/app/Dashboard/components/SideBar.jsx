@@ -39,11 +39,11 @@ export default function Sidebar() {
       label: "ຈັດການບໍລິການ",
       href: "/ServiceManagement",
     },
-    {
-      icon: <FaPhoneAlt className="w-5 h-5" />,
-      label: "ຈັດການການຕິດຕໍ່",
-      href: "/ManagerContact",
-    },
+    // {
+    //   icon: <FaPhoneAlt className="w-5 h-5" />,
+    //   label: "ຈັດການການຕິດຕໍ່",
+    //   href: "/ManagerContact",
+    // },
     {
       icon: <FaUsers className="w-5 h-5" />,
       label: "ປະເພດລູກຄ້າ",
