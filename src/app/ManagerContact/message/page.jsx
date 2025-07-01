@@ -98,7 +98,7 @@ export default function MessageViewPage() {
               <input
                 type="file"
                 accept="image/*"
-                onChange={handleImageChange}
+                // onChange={handleImageChange}
                 className="hidden"
                 id="upload-image"
               />
