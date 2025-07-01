@@ -12,9 +12,13 @@ export default function MessageViewPage() {
   const [imagePreview, setImagePreview] = useState(null);
 
   useEffect(() => {
+    // Ensure this effect runs only on the client-side
+    if (typeof window === "undefined") return;
+
     const cars = JSON.parse(localStorage.getItem("cars") || "[]");
     const selected = cars.find((item) => item.id === Number(id));
     setCustomer(selected);
+
     if (selected?.image) setImagePreview(selected.image);
 
     const history = JSON.parse(localStorage.getItem(`messages-${id}`) || "[]");
@@ -23,7 +27,10 @@ export default function MessageViewPage() {
 
   const handleSendMessage = () => {
     if (!message.trim()) return;
-    const updated = [...messages, { text: message, time: new Date().toISOString() }];
+    const updated = [
+      ...messages,
+      { text: message, time: new Date().toISOString() },
+    ];
     localStorage.setItem(`messages-${id}`, JSON.stringify(updated));
     setMessages(updated);
     setMessage("");
@@ -56,7 +63,9 @@ export default function MessageViewPage() {
   };
 
   if (!customer) {
-    return <div className="p-8 text-center text-gray-500">ກຳລັງໂຫຼດຂໍ້ມູນ...</div>;
+    return (
+      <div className="p-8 text-center text-gray-500">ກຳລັງໂຫຼດຂໍ້ມູນ...</div>
+    );
   }
 
   return (
@@ -74,7 +83,11 @@ export default function MessageViewPage() {
           <div className="flex flex-col items-center gap-3">
             <div className="w-64 h-64 bg-gray-100 border rounded overflow-hidden">
               {imagePreview ? (
-                <img src={imagePreview} alt="preview" className="w-full h-full object-cover" />
+                <img
+                  src={imagePreview}
+                  alt="preview"
+                  className="w-full h-full object-cover"
+                />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-gray-400">
                   ບໍ່ມີຮູບ
@@ -109,9 +122,16 @@ export default function MessageViewPage() {
           {/* Message Area */}
           <div className="w-full flex-1">
             <div className="flex flex-wrap gap-2 mb-4">
-              <button className="bg-gray-200 px-3 py-1 rounded">ແຈ້ງໂປຣໂມຊັນ</button>
+              <button className="bg-gray-200 px-3 py-1 rounded">
+                ແຈ້ງໂປຣໂມຊັນ
+              </button>
               <button className="bg-gray-200 px-3 py-1 rounded">ຂ່າວສານ</button>
-              <button className="bg-gray-300 text-gray-400 px-3 py-1 rounded" disabled>ລ່າງຂໍ້ຄວາມ</button>
+              <button
+                className="bg-gray-300 text-gray-400 px-3 py-1 rounded"
+                disabled
+              >
+                ລ່າງຂໍ້ຄວາມ
+              </button>
             </div>
 
             <textarea
@@ -136,9 +156,16 @@ export default function MessageViewPage() {
               ) : (
                 <ul className="space-y-2">
                   {messages.map((msg, index) => (
-                    <li key={index} className="bg-gray-100 p-2 rounded shadow-sm">
-                      <span className="block text-sm text-gray-700">{msg.text}</span>
-                      <span className="text-xs text-gray-400">{new Date(msg.time).toLocaleString()}</span>
+                    <li
+                      key={index}
+                      className="bg-gray-100 p-2 rounded shadow-sm"
+                    >
+                      <span className="block text-sm text-gray-700">
+                        {msg.text}
+                      </span>
+                      <span className="text-xs text-gray-400">
+                        {new Date(msg.time).toLocaleString()}
+                      </span>
                     </li>
                   ))}
                 </ul>
